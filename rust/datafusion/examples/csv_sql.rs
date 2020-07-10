@@ -16,6 +16,9 @@
 // under the License.
 
 use arrow::util::pretty;
+use systemstat::{System, Platform, saturating_sub_bytes};
+use std::thread;
+use std::time::Duration;
 
 use datafusion::datasource::csv::CsvReadOptions;
 use datafusion::error::Result;
@@ -26,8 +29,22 @@ use datafusion::execution::context::ExecutionContext;
 fn main() -> Result<()> {
     // create local execution context
     let mut ctx = ExecutionContext::new();
+    print!("here before arrow\n\n\n");
+    let sys = System::new();
+    match sys.cpu_load_aggregate() {
+        Ok(cpu)=> {
+            println!("\nMeasuring CPU load...");
+            thread::sleep(Duration::from_secs(1));
+            let cpu = cpu.done().unwrap();
+            println!("CPU load: {}% user, {}% nice, {}% system, {}% intr, {}% idle ",
+                     cpu.user * 100.0, cpu.nice * 100.0, cpu.system * 100.0, cpu.interrupt * 100.0, cpu.idle * 100.0);
+        },
+        Err(x) => println!("\nCPU load: error: {}", x)
+    }
+    //let testdata = std::env::var("ARROW_TEST_DATA").expect("ARROW_TEST_DATA not Defined");
+    //let testdata = "/Users/jasonmichaelvallee/CS/data/Arrow/testing/data";
+    let testdata = "../../testing/data";
 
-    let testdata = std::env::var("ARROW_TEST_DATA").expect("ARROW_TEST_DATA not defined");
 
     // register csv file with the execution context
     ctx.register_csv(
