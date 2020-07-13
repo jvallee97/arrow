@@ -17,12 +17,6 @@
 
 //! Defines the SORT plan
 
-extern crate cpu_monitor;
-
-use cpu_monitor::CpuInstant;
-
-use std::io;
-use std::time::Duration;
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::thread::JoinHandle;
@@ -81,11 +75,6 @@ struct SortPartition {
 impl Partition for SortPartition {
     /// Execute the sort
     fn execute(&self) -> Result<Arc<Mutex<dyn BatchIterator>>> {
-        let start = CpuInstant::now()?;
-        std::threat::sleep(Duration::from_millis(100));
-        let end = CpuInstant::now()?;
-        let duration = end - start;
-        println!("CPU at execute: {:.0}%", duration.non_idle() * 100.);
         let threads: Vec<JoinHandle<Result<Vec<RecordBatch>>>> = self
             .input
             .iter()

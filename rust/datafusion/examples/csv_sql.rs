@@ -50,4 +50,6 @@ fn main() -> Result<()> {
     pretty::print_batches(&results)?;
 
     Ok(())
+
+
 }
