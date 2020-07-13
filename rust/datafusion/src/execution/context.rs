@@ -284,7 +284,6 @@ impl ExecutionContext {
         logical_plan: &LogicalPlan,
         batch_size: usize,
     ) -> Result<Arc<dyn ExecutionPlan>> {
-        print!("create_physical_plan\n\n");
         match logical_plan {
             LogicalPlan::TableScan {
                 table_name,
@@ -370,8 +369,6 @@ impl ExecutionContext {
                     .iter()
                     .map(|e| self.create_aggregate_expr(e, &input_schema))
                     .collect::<Result<Vec<_>>>()?;
-                print!("HASH \n\n");
-                //print!("{}", input);
                 let initial_aggr =
                     HashAggregateExec::try_new(group_expr, aggr_expr, input)?;
 

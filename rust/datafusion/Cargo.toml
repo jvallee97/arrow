@@ -38,8 +38,12 @@ path = "src/lib.rs"
 [[bin]]
 #name = "datafusion-cli"
 #path = "src/bin/main.rs"
-name = "examplesCSV"
-path =  "examples/csv_sql.rs"
+#name = "examples100CSV"
+#path =  "examples/csvAggregateSortTest100.rs"
+name = "examples1000CSV"
+path =  "examples/csvAggregateSortTest1000.rs"
+#name = "examples10000CSV"
+#path =  "examples/csvAggregateSortTest10000.rs"
 
 [features]
 default = ["cli"]
