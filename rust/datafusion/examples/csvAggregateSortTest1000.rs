@@ -15,11 +15,11 @@
 // specific language governing permissions and limitations
 // under the License.
 extern crate cpu_monitor;
+use std::time::{Duration, Instant};
 
 use arrow::util::pretty;
 //use systemstat::{System, Platform, saturating_sub_bytes};
 use std::thread;
-use std::time::Duration;
 
 use datafusion::datasource::csv::CsvReadOptions;
 use datafusion::error::Result;
@@ -32,13 +32,16 @@ fn main() -> Result<()> {
     let mut x = 0;
     let mut avg = 0.0;
     let mut sort_avg = 0.0;
-    let testdata = "../../testing/data";
+    //let testdata = "../../testing/data";
+    let testdata = "C:/Users/jason/IdeaProjects/arrow/testing/data";
 
     println!("100 iterations through 1000 row data");
 
-    println!("starting group by");
+    println!("starting group by Mem");
+    let start = Instant::now();
     while x < 100
     {
+
         x+=1;
         let mut ctx = ExecutionContext::new();
         let start = CpuInstant::now()?;
@@ -64,9 +67,12 @@ fn main() -> Result<()> {
 
         avg += duration.non_idle();
     }
-
+    let duration = start.elapsed();
+    println!("{:?}", duration);
     let mut x = 0;
     println!("starting sort");
+
+    let start = Instant::now();
     while x < 100 {
 
         x+=1;
@@ -91,7 +97,8 @@ fn main() -> Result<()> {
 
         sort_avg += duration.non_idle();
     }
-
+    let duration = start.elapsed();
+    println!("{:?}", duration);
     let mut x = 0;
     let mut sleep_avg = 0.0;
 

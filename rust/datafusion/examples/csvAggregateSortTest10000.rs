@@ -32,7 +32,8 @@ fn main() -> Result<()> {
     let mut x = 0;
     let mut avg = 0.0;
     let mut sort_avg = 0.0;
-    let testdata = "../../testing/data";
+    //let testdata = "../../testing/data";
+    let testdata = "C:\Users\jason\IdeaProjects\arrow\testing\data";
     println!("100 iterations through 10000 row data");
 
     println!("starting grouby");
