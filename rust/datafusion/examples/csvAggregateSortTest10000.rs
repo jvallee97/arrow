@@ -14,7 +14,7 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-extern crate cpu_monitor;
+//extern crate cpu_monitor;
 
 use arrow::util::pretty;
 //use systemstat::{System, Platform, saturating_sub_bytes};
