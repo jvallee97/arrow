@@ -14,7 +14,6 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-extern crate cpu_monitor;
 
 use arrow::util::pretty;
 //use systemstat::{System, Platform, saturating_sub_bytes};
@@ -24,13 +23,12 @@ use std::time::Duration;
 use datafusion::datasource::csv::CsvReadOptions;
 use datafusion::error::Result;
 use datafusion::execution::context::ExecutionContext;
-use cpu_monitor::CpuInstant;
+//use cpu_monitor::CpuInstant;
 /// This example demonstrates executing a simple query against an Arrow data source (CSV) and
 /// fetching results
 fn main() -> Result<()> {
     // create local execution context
     let mut x = 0;
-    let temp = CpuInstant::now()?;
     let mut avg = 0.0;
     let mut sort_avg = 0.0;
     let testdata = "../../testing/data";
@@ -41,7 +39,7 @@ fn main() -> Result<()> {
     {
         x+=1;
         let mut ctx = ExecutionContext::new();
-        let start = CpuInstant::now()?;
+        //let start = CpuInstant::now()?;
         std::thread::sleep(Duration::from_millis(100));
         // register csv file with the execution context
         ctx.register_csv(
@@ -60,9 +58,9 @@ fn main() -> Result<()> {
 
         // execute the query
         let results = ctx.collect(plan.as_ref())?;
-        let end = CpuInstant::now()?;
-        let duration = end - start;
-        avg += duration.non_idle();
+        //let end = CpuInstant::now()?;
+        //let duration = end - start;
+        //avg += duration.non_idle();
         //println!("AVG: {}%", avg);
         //println!("CPU usage for Groupby Query: {:.0}%", duration.non_idle()*100.);
 
@@ -83,7 +81,7 @@ fn main() -> Result<()> {
         let mut ctx = ExecutionContext::new();
 
         //SORT Section
-        let start = CpuInstant::now()?;
+        //let start = CpuInstant::now()?;
         std::thread::sleep(Duration::from_millis(100));
         ctx.register_csv(
             "aggregate_test_100",
@@ -96,11 +94,11 @@ fn main() -> Result<()> {
         let plan2 = ctx.create_physical_plan(&plan2, 1024 * 1024)?;
         let results = ctx.collect(plan2.as_ref())?;
         //pretty::print_batches(&results)?;
-        let end = CpuInstant::now()?;
-        let duration = end - start;
+        //let end = CpuInstant::now()?;
+        //let duration = end - start;
         //println!("PREV SORT AVG: {}", sort_avg);
         //println!("sort duration non_idle: {}", duration.non_idle());
-        sort_avg += duration.non_idle();
+       // sort_avg += duration.non_idle();
         //println!("CPU usage for Sort Query: {:.0}%\n\n\n", duration.non_idle()*100.);
     }
 
@@ -111,17 +109,17 @@ fn main() -> Result<()> {
     while x < 20{
         x+=1;
         //Sleep Section
-        let start = CpuInstant::now()?;
+        //let start = CpuInstant::now()?;
         std::thread::sleep(Duration::from_millis(100));
-        let end = CpuInstant::now()?;
-        let duration = end - start;
-        sleep_avg += duration.non_idle();
+        // let end = CpuInstant::now()?;
+        // let duration = end - start;
+        // sleep_avg += duration.non_idle();
         //println!("CPU usage for sleep thread: {:.0}%", duration.non_idle() * 100.);
     }
 
-    println!("\n\nCPU Average usage GROUP BY: {:.0}%", avg );
-    println!("CPU Average usage SORT: {:.0}%", sort_avg );
-    println!("CPU Average usage SLEEP: {:.0}%", sleep_avg*5. );
+    // println!("\n\nCPU Average usage GROUP BY: {:.0}%", avg );
+    // println!("CPU Average usage SORT: {:.0}%", sort_avg );
+    // println!("CPU Average usage SLEEP: {:.0}%", sleep_avg*5. );
 
     Ok(())
 }

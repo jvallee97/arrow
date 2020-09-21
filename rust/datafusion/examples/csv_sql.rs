@@ -14,7 +14,6 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-extern crate cpu_monitor;
 
 use arrow::util::pretty;
 //use systemstat::{System, Platform, saturating_sub_bytes};
@@ -26,7 +25,6 @@ use datafusion::error::Result;
 use datafusion::execution::context::ExecutionContext;
 
 use sysinfo::{NetworkExt, NetworksExt, ProcessExt, System, SystemExt};
-use cpu_monitor::CpuInstant;
 /// This example demonstrates executing a simple query against an Arrow data source (CSV) and
 /// fetching results
 fn main() -> Result<()> {

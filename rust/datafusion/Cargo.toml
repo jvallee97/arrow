@@ -40,10 +40,14 @@ path = "src/lib.rs"
 #path = "src/bin/main.rs"
 #name = "examples100CSV"
 #path =  "examples/csvAggregateSortTest100.rs"
-name = "examples1000CSV"
-path =  "examples/csvAggregateSortTest1000.rs"
+#name = "examples1000CSV"
+#path =  "examples/csvAggregateSortTest1000.rs"
 #name = "examples10000CSV"
 #path =  "examples/csvAggregateSortTest10000.rs"
+#name = "examples100000CSV"
+#path =  "examples/csvGroupByPID100000.rs"
+name = "schedule"
+path =  "examples/queryScheduler.rs"
 
 [features]
 default = ["cli"]
@@ -59,9 +63,9 @@ prettytable-rs = "0.8.0"
 rustyline = {version = "6.0", optional = true}
 crossbeam = "0.7"
 paste = "0.1"
-systemstat   = "0.1.5"
 sysinfo = { git = "https://github.com/GuillaumeGomez/sysinfo" }
-cpu-monitor = "0.1.1"
+flame = "0.2.2"
+chrono = "0.4"
 
 [dev-dependencies]
 criterion = "0.3"

@@ -14,7 +14,7 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-extern crate cpu_monitor;
+//extern crate cpu_monitor;
 use std::time::{Duration, Instant};
 
 use arrow::util::pretty;
@@ -24,7 +24,7 @@ use std::thread;
 use datafusion::datasource::csv::CsvReadOptions;
 use datafusion::error::Result;
 use datafusion::execution::context::ExecutionContext;
-use cpu_monitor::CpuInstant;
+//use cpu_monitor::CpuInstant;
 
 
 fn main() -> Result<()> {
@@ -44,7 +44,7 @@ fn main() -> Result<()> {
 
         x+=1;
         let mut ctx = ExecutionContext::new();
-        let start = CpuInstant::now()?;
+        //let start = CpuInstant::now()?;
         // register csv file with the execution context
         ctx.register_csv(
             "aggregate_test_1000",
@@ -62,10 +62,8 @@ fn main() -> Result<()> {
         // execute the query
         let results = ctx.collect(plan.as_ref())?;
 
-        let end = CpuInstant::now()?;
-        let duration = end - start;
+        //let end = CpuInstant::now()?;
 
-        avg += duration.non_idle();
     }
     let duration = start.elapsed();
     println!("{:?}", duration);
@@ -80,7 +78,7 @@ fn main() -> Result<()> {
         let mut ctx = ExecutionContext::new();
 
         //SORT Section
-        let start = CpuInstant::now()?;
+        //let start = CpuInstant::now()?;
         ctx.register_csv(
             "aggregate_test_1000",
             &format!("{}/csv/1000_data.csv", testdata),
@@ -92,31 +90,19 @@ fn main() -> Result<()> {
         let plan2 = ctx.create_physical_plan(&plan2, 1024 * 1024)?;
         let results = ctx.collect(plan2.as_ref())?;
 
-        let end = CpuInstant::now()?;
-        let duration = end - start;
+        //let end = CpuInstant::now()?;
+        let duration = 0;
 
-        sort_avg += duration.non_idle();
     }
     let duration = start.elapsed();
     println!("{:?}", duration);
     let mut x = 0;
     let mut sleep_avg = 0.0;
 
-    println!("starting sleep");
-    while x < 20{
-        x+=1;
 
-        //Sleep Section
-        let start = CpuInstant::now()?;
-        std::thread::sleep(Duration::from_millis(100));
-        let end = CpuInstant::now()?;
-        let duration = end - start;
-        sleep_avg += duration.non_idle();
-    }
 
     println!("\n\nCPU Average usage GROUPBY: {:.0}%", avg );
     println!("CPU Average usage SORT: {:.0}%", sort_avg );
-    println!("CPU Average usage SLEEP: {:.0}%", sleep_avg*5. );
 
     Ok(())
 }
